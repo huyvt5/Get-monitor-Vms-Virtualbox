@@ -33,3 +33,4 @@ echo "RAM used :"$RamUsed
 echo "Disk used :"$DiskUsed
 echo "net RX :"$NetRX
 echo "net TX :"$NetTX
+done < /root/test_scripts/listvm.txt
