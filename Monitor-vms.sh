@@ -1,6 +1,6 @@
 #/bin/sh
 # Author : Vo Trung Huy
-# Running shell : VBoxManage metrics setup to get metrics Monitor Virtualbox
+# Running shell : "VBoxManage metrics setup" to get metrics Monitor Virtualbox after run script 
 
 vboxmanage list runningvms > listvm.txt
 while read data
@@ -27,7 +27,7 @@ CpuKernel=`echo ${CpuKernel1//%}`
 echo "Ten VM:" $vm
 echo "Total vm running :"$vmrunning
 echo "Total Ram :"$TotalRAM
-echo "Total CPI :"$TotalCoreCPU
+echo "Total CPU :"$TotalCoreCPU
 echo "CPU user :"$CpuUser
 echo "CPU kernel :"$CpuKernel
 echo "RAM used :"$RamUsed
