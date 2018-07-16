@@ -20,6 +20,7 @@ RamUsed=`expr $x / 1000`
 DiskUsed=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Disk/Usage/Used | awk -F '[ ]' '{print $3}' | head -1`
 NetRX=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Net/Rate/Rx | awk -F '[ ]' '{print $3}' | head -1`
 NetTX=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Net/Rate/Tx | awk -F '[ ]' '{print $3}' | head -1`
+TotalDisk=`vboxmanage list hdds | grep -A 7 $vm | grep Capacity | awk -F '[ ]' '{print $8}'`
 echo "Information of " $vm :
 CpuUser=`echo ${CpuUser1//%}`
 CpuKernel=`echo ${CpuKernel1//%}`
@@ -33,4 +34,5 @@ echo "RAM used :"$RamUsed
 echo "Disk used :"$DiskUsed
 echo "net RX :"$NetRX
 echo "net TX :"$NetTX
+echo "TotalDisk"$TotalDisk
 done < /root/test_scripts/listvm.txt
