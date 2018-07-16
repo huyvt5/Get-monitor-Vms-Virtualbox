@@ -1,0 +1,39 @@
+#/bin/sh
+# Author : Vo Trung Huy
+# Running shell : VBoxManage metrics setup to get metrics Monitor Virtualbox
+
+vboxmanage list runningvms > listvm.txt
+while read data
+do
+hostname=`hostname`
+#echo $hostname
+vm=`echo $data | awk -F ['"'] '{print $2}'`
+VRDE=`VBoxManage showvminfo $vm | grep "VRDE port:" | awk -F '[ ]' '{print $9}'`
+IP=`grep $VRDE /root/test_scripts/listIP-10.40.30.33 | awk -F [' '] '{print $1}'`
+#echo $IP
+x=`VBoxManage list runningvms | wc -l`
+vmrunning=`echo $x`
+y=`VBoxManage showvminfo $vm | grep -F "Memory size" | awk -F '[ ]' '{print $7}'`
+TotalRAM=`echo "${y//MB}"`
+TotalCoreCPU=`VBoxManage showvminfo $vm | grep -F "Number of CPUs" | awk -F '[ ]' '{print $5}'`
+CpuUser1=`VBoxManage metrics query $vm| tr -s ' ' | grep -F CPU/Load/User | awk -F '[ ]' '{print $3}' | head -1`
+CpuKernel1=`VBoxManage metrics query $vm| tr -s ' ' | grep -F CPU/Load/Kernel | awk -F '[ ]' '{print $3}' | head -1`
+x=`VBoxManage metrics query $vm| tr -s ' ' | grep -F RAM/Usage/Used | awk -F '[ ]' '{print $3}' | head -1`
+RamUsed=`expr $x / 1000`
+DiskUsed=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Disk/Usage/Used | awk -F '[ ]' '{print $3}' | head -1`
+NetRX=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Net/Rate/Rx | awk -F '[ ]' '{print $3}' | head -1`
+NetTX=`VBoxManage metrics query $vm| tr -s ' ' | grep -F Net/Rate/Tx | awk -F '[ ]' '{print $3}' | head -1`
+echo "Information of " $vm :
+CpuUser=`echo ${CpuUser1//%}`
+CpuKernel=`echo ${CpuKernel1//%}`
+echo "Ten VM:" $vm
+echo "IP:" $IP
+echo "Total vm running :"$vmrunning
+echo "Total Ram :"$TotalRAM
+echo "Total CPI :"$TotalCoreCPU
+echo "CPU user :"$CpuUser
+echo "CPU kernel :"$CpuKernel
+echo "RAM used :"$RamUsed
+echo "Disk used :"$DiskUsed
+echo "net RX :"$NetRX
+echo "net TX :"$NetTX
