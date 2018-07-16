@@ -8,7 +8,6 @@ do
 hostname=`hostname`
 #echo $hostname
 vm=`echo $data | awk -F ['"'] '{print $2}'`
-VRDE=`VBoxManage showvminfo $vm | grep "VRDE port:" | awk -F '[ ]' '{print $9}'`
 x=`VBoxManage list runningvms | wc -l`
 vmrunning=`echo $x`
 y=`VBoxManage showvminfo $vm | grep -F "Memory size" | awk -F '[ ]' '{print $7}'`
