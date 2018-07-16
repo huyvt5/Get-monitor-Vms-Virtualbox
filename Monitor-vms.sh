@@ -9,8 +9,6 @@ hostname=`hostname`
 #echo $hostname
 vm=`echo $data | awk -F ['"'] '{print $2}'`
 VRDE=`VBoxManage showvminfo $vm | grep "VRDE port:" | awk -F '[ ]' '{print $9}'`
-IP=`grep $VRDE /root/test_scripts/listIP-10.40.30.33 | awk -F [' '] '{print $1}'`
-#echo $IP
 x=`VBoxManage list runningvms | wc -l`
 vmrunning=`echo $x`
 y=`VBoxManage showvminfo $vm | grep -F "Memory size" | awk -F '[ ]' '{print $7}'`
@@ -27,7 +25,6 @@ echo "Information of " $vm :
 CpuUser=`echo ${CpuUser1//%}`
 CpuKernel=`echo ${CpuKernel1//%}`
 echo "Ten VM:" $vm
-echo "IP:" $IP
 echo "Total vm running :"$vmrunning
 echo "Total Ram :"$TotalRAM
 echo "Total CPI :"$TotalCoreCPU
